@@ -1,0 +1,9 @@
+stages:
+  - Security check
+
+include:
+  - project: 'crowdar/template-ci'
+    ref: main
+    file: 
+      - 'Security.yml'
+

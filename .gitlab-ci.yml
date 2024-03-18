@@ -1,0 +1,52 @@
+image: docker-spv.artifactory.gscorp.ad/lippia_spv_adapter:3.2.1.1
+
+
+stages:
+  - build
+  - testReporte
+  - testManual
+  - PublishReport
+
+Build:
+  stage: build
+  script:
+    - mvn compile
+
+Test-Reports:
+  stage: testReporte
+  script:
+    - mvn clean test -Dcrowdar.cucumber.filter="$TAG"
+  artifacts:
+    name: $CI_BUILD_NAME_$CI_PIPELINE_ID
+    when: always
+    paths:
+      - target/HtmlReport/
+  only:
+    - schedules
+    
+    
+Test-Ademanda:
+  stage: testManual
+  script:
+    - mvn clean test -Dcrowdar.cucumber.filter="$TAG"
+  artifacts:
+    name: $CI_BUILD_NAME_$CI_PIPELINE_ID
+    when: always
+    paths:
+      - target/HtmlReport/
+  only:
+    - web
+    
+pages:
+  stage: PublishReport
+  script:
+    - echo "Publish Test Reports"
+    - mv target/HtmlReport public
+    - echo "URL:https://desarrollo.gitlab.gscorp.ad/tarjetas/test-tarjetas-database/"
+  artifacts:
+    paths:
+      - public
+  only:
+    - schedules
+    - web
+  when: always

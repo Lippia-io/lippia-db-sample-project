@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.lippia</groupId>
+        <artifactId>root</artifactId>
+        <version>3.3.0.0</version>
+    </parent>
+
+    <groupId>Lippia-DB-Example-Project</groupId>
+    <artifactId>LippiaDBbExampleProject</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <database.runner>testng.xml</database.runner>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <crowdar.projectType>DATABASE</crowdar.projectType>
+        <!-- cucumber options -->
+        <cucumber.stepsDefinitions>--glue /</cucumber.stepsDefinitions>
+        <cucumber.hooks>--glue com/crowdar/bdd/cukes/hooks</cucumber.hooks>
+        <cucumber.tags>@c</cucumber.tags>
+        <pretty.plugin>--plugin pretty</pretty.plugin>
+        <cucumber.report>--plugin lippia.web.reporters.CucumberReporter:</cucumber.report>
+        <test-manager.report>--plugin lippia.web.reporters.TestManagerReporter:</test-manager.report>
+        <crowdar.cucumber.option>src/test/resources/web/features ${cucumber.hooks} ${cucumber.stepsDefinitions} --tags
+            'not @Ignore' --tags ${cucumber.tags} ${cucumber.report}
+        </crowdar.cucumber.option>
+
+        <!-- client project custom properties -->
+        <crwdr.db.host>localhost</crwdr.db.host>
+        <crwdr.db.port>3306</crwdr.db.port>
+        <crwdr.db.user>root</crwdr.db.user>
+        <crwdr.db.password>5656</crwdr.db.password>
+        <crwdr.db.name>databasePrueba</crwdr.db.name>
+
+
+    </properties>
+    <profiles>
+        <profile>
+            <id>secuencial</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+    <dependencies>
+        <dependency>
+            <groupId>io.lippia</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.lippia.report</groupId>
+            <artifactId>ltm-cucumber4-adapter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.lippia.report</groupId>
+            <artifactId>extentreports-cucumber4-adapter</artifactId>
+            <version>1.1.0.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.2.0.jre8</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
+        </dependency>
+    <!-- https://mvnrepository.com/artifact/com.github.luben/zstd-jni -->
+</dependencies>
+<build>
+<filters>
+    <filter>src/main/resources/cucumber.properties</filter>
+</filters>
+<plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M4</version>
+        <configuration>
+            <suiteXmlFiles>
+                <suiteXmlFile>${database.runner}</suiteXmlFile>
+            </suiteXmlFiles>
+            <systemPropertyVariables>
+                <CROWDAR_DB_HOST>${crwdr.db.host}</CROWDAR_DB_HOST>
+                <CROWDAR_DB_PORT>${crwdr.db.port}</CROWDAR_DB_PORT>
+                <CROWDAR_DB_USER>${crwdr.db.user}</CROWDAR_DB_USER>
+                <CROWDAR_DB_PASSWORD>${crwdr.db.password}</CROWDAR_DB_PASSWORD>
+                <CROWDAR_DB_NAME>${crwdr.db.name}</CROWDAR_DB_NAME>
+            </systemPropertyVariables>
+        </configuration>
+    </plugin>
+</plugins>
+</build>
+
+<repositories>
+<repository>
+    <id>crowdarRepo</id>
+    <name>crowdar-repository</name>
+    <url>https://nexus-v3-repositories.automation.crowdaronline.com/repository/maven-public/</url>
+</repository>
+</repositories>
+
+
+        </project>

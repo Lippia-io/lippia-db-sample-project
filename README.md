@@ -1,93 +1,166 @@
-# Lippia DB Sample Project
+# Lippia DB Sample Project Documentation
 
+## Purpose:
+The "Lippia DB Sample Project" aims to demonstrate how to work with a relational database in a Java project using the Lippia Framework. Through Gherkin scenarios, basic operations like retrieving, updating, inserting, and deleting products in a database are showcased.
 
+## System Requirements:
+-   JDK: [https://docs.oracle.com/en/java/javase/index.html](https://docs.oracle.com/en/java/javase/index.html)
+-   Maven: [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi)
+-   Git client: [https://www.atlassian.com/git/tutorials/install-git](https://www.atlassian.com/git/tutorials/install-git)
+-   Docker 18.09+: [https://docs.docker.com/install/linux/docker-ce/ubuntu/](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
+-   Docker compose 1.24+: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
-## Getting started
+# Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+`$ mvn clean test`
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+## Project structure
+A typical Lippia Test Automation project usually looks like this
 ```
-cd existing_repo
-git remote add origin https://gitlab.crowdaronline.com/lippia/products/samples/lippia-db-sample-project.git
-git branch -M main
-git push -uf origin main
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── Database
+│   │   │       ├── service
+│   │   │       ├── repository
+│   │   │       ├── util
+│   │   │       └── validator
+│   │   ├── models
+│   │   └── report
+│   └── test
+│       ├── java
+│       │   └── database
+│       │       └── hooks
+│       │       └── steps
+│       └── resources
+│           ├── features
+│           └── queries
+└── pom.xml
 ```
 
-## Integrate with your tools
+Folder's description:
 
-- [ ] [Set up project integrations](https://gitlab.crowdaronline.com/lippia/products/samples/lippia-db-sample-project/-/settings/integrations)
+|Path   |Description     |
+|-------|----------------|
+|main\java\...\examples\services\*.java  | Folder with all the **Services** matching steps with java code |
+|main\java\...\examples\steps\*Steps.java  | Folder with all the **steps** which match with Gherkin Test Scenarios |
+|test\resources\features\*.feature  | Folder with all the **feature files** containing **Test Scenarios** and **Sample Data** |
+|main\java\...\examples\**repository**\*.java  | Folder with all the ****repository**** class to interact with the database. |
+|main\java\...\examples\**model**\*.java  | Folder with all the ****model**** class to model entities. |
+|main\resources|Configuration files and SQL queries.|
+|src/test/java/validator|Folder for data validation.|
 
-## Collaborate with your team
+## Database Configuration
+The database connection is configured using the following properties in the `pom.xml`:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+	<crwdr.db.host>localhost</crwdr.db.host>
+	<crwdr.db.port>3306</crwdr.db.port>
+	<crwdr.db.user>root</crwdr.db.user>
+	<crwdr.db.password>5656</crwdr.db.password>
+	<crwdr.db.name>databasePrueba</crwdr.db.name>
 
-## Test and Deploy
+## Feature File
+The Test Scenarios can be written using BDD metodology. This project includes Cucumber as BDD interpreter which is supported by Lippia by default. On each declared step you can insert the calls defined from service classes
 
-Use the built-in continuous integration in GitLab.
+	Feature: Database CRUD  
+	  Scenario Outline: Obtener un producto por código  
+	    Given el sistema retorna los productos con codigo "codigo"  
+	    Then se valida el formato de los registros procesados  
+	    Examples:  
+	      | codigo |  
+	      | S10_1678 |
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## Step Object
+In the steps files we connect the gherkin with java code, and here is the connection with the services, in these classes there should not be logic
 
-***
+	@Given("el sistema retorna los productos con codigo (.*)")  
+	public void elSistemaRetornaLosProductosConCodigoCodigo(String codigo) throws SQLException, IOException {  
+	        productsList = serviceExample.selectProducts(codigo);  
+	}  
 
-# Editing this README
+	@Then("se valida el formato de los registros procesados")  
+	public void seValidaElFormatoDeLosRegistrosProcesados() {  
+	    validarProducts.validaFormatoCamposProducts(productsList);  
+	}
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Services Class
+The `serviceExample` class contains methods to perform operations in the database:
 
-## Suggestions for a good README
+	public class ServiceExample {  
+ 
+    repositoryExampleProducts repositoryExampleProducts = new repositoryExampleProducts();  
+  
+    public List<Products> selectProducts(String code) throws SQLException, IOException {  
+        return repositoryExampleProducts.selectProducts(code);  
+    }  
+  
+    public void updateProductDescrip(String text, String code) throws SQLException, IOException {  
+         repositoryExampleProducts.updateProduct(text,code);  
+    }  
+  
+    public Products selectProduct(String code) throws SQLException, IOException {  
+        return repositoryExampleProducts.selectProduct(code);
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Repository Class
+The `repositoryExample` class implements SQL 			queries to interact with the database:
 
-## Name
-Choose a self-explaining name for your project.
+	public class RepositoryExample {  
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+    List<Products> productsList = new ArrayList<>();  
+    Products product = new Products();  
+  
+    public List<Products> selectProducts(String code) throws IOException, SQLException {  
+        String query = SqlFileReader.getQueryString("products.sql");  
+        Map<Integer, Object> parameters = new HashMap<>();  
+        parameters.put(1, code);  
+        ResultSet resultSet = (ResultSet) DatabaseUtils.executeQueryWithParameters(query, parameters);  
+        while (resultSet.next()) {  
+            Products product = new Products();  
+            product.setProductCode(resultSet.getString("productCode"));  
+            product.setProductName(resultSet.getString("productName"));  
+            product.setProductLine(resultSet.getString("productLine"));  
+            product.setProductDescription(resultSet.getString("productDescription"));  
+            product.setQuantityInStock(resultSet.getInt("quantityInStock"));  
+            productsList.add(product);  
+            System.out.println("Producto seleccionado: " + product.getProductDescription());  
+            System.out.println("-------------------------");  
+        }  
+  
+        return productsList;  
+    }
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+##  Validation Class
+The `validation` class contains methods to validate product data:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+	public class ValidationsExample {  
+  
+    public void validaFormatoCamposProducts(List<Products> productsList) {  
+        for (Products product : productsList) {  
+            List<String> errors = validateProduct(product);  
+            Assert.assertTrue(errors.isEmpty(),"Producto inválido: " + errors);  
+        }  
+    }  
+  
+    public static List<String> validateProduct(Products product) {  
+        List<String> errors = new ArrayList<>();  
+  
+	  if (product.getProductCode() == null || product.getProductCode().isEmpty()) {  
+	            errors.add("productCode cannot be empty");  
+	        } else if (product.getProductCode().length() > 15) {  
+	            errors.add("productCode cannot be longer than 15 characters");  
+	        }  
+	  
+	  if (product.getProductName() == null || product.getProductName().isEmpty()) {  
+	            errors.add("productName cannot be empty");       }
+	  }
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### testng.xml
+	<?xml version="1.0" encoding="UTF-8"?>  
+	<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">  
+	<suite name="BDD Test Suite" verbose="1" parallel="tests" thread-count="1" configfailurepolicy="continue">  
+	    <test name="Test database Scenario" annotations="JDK" preserve-order="true">  
+	        <classes>  
+	            <class name="DataBaseRunner"/>  
+	        </classes>  
+	    </test>  
+	</suite>
