@@ -16,7 +16,7 @@ public class Hooks {
 
         @Before()
         public void setScenario(Scenario scenario) throws IOException, SQLException {
-            System.out.println("Escenario");
+            System.out.println("Scenario");
             Logger.getRootLogger().info("-----------" + scenario.getName() + "-----------");
         }
 

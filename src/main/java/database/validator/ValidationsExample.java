@@ -11,7 +11,7 @@ public class ValidationsExample {
     public void validaFormatoCamposProducts(List<Products> productsList) {
         for (Products product : productsList) {
             List<String> errors = validateProduct(product);
-            Assert.assertTrue(errors.isEmpty(),"Producto inválido: " + errors);
+            Assert.assertTrue(errors.isEmpty(),"Invalid product: " + errors);
         }
     }
 

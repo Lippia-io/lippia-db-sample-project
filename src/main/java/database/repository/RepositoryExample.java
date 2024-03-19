@@ -31,7 +31,7 @@ public class RepositoryExample {
             product.setProductDescription(resultSet.getString("productDescription"));
             product.setQuantityInStock(resultSet.getInt("quantityInStock"));
             productsList.add(product);
-            System.out.println("Producto seleccionado: " + product.getProductDescription());
+            System.out.println("Selected product: " + product.getProductDescription());
             System.out.println("-------------------------");
         }
 
@@ -51,7 +51,7 @@ public class RepositoryExample {
             product.setProductDescription(resultSet.getString("productDescription"));
             product.setQuantityInStock(resultSet.getInt("quantityInStock"));
         }
-        System.out.println("Producto seleccionado: " + product.getProductDescription());
+        System.out.println("Selected product: " + product.getProductDescription());
         System.out.println("-------------------------");
         return product;
     }
@@ -63,9 +63,9 @@ public class RepositoryExample {
         parameters.put(2, code);
         boolean resultSet = (boolean) DatabaseUtils.executeQueryWithParameters(query, parameters);
         if (resultSet) {
-            System.out.println("Actualizacion exitosa");
+            System.out.println("Successful update");
         } else {
-            Assert.fail("Error al actualizar");
+            Assert.fail("Error updating");
         }
     }
 
@@ -75,9 +75,9 @@ public class RepositoryExample {
         parameters.put(1, code);
         boolean resultSet = (boolean) DatabaseUtils.executeQueryWithParameters(query, parameters);
         if (resultSet) {
-            System.out.println("Eliminacion exitosa");
+            System.out.println("Successful deletion");
         } else {
-            Assert.fail("Error al eliminar");
+            Assert.fail("Error deleting");
         }
     }
 
@@ -95,9 +95,9 @@ public class RepositoryExample {
         parameters.put(9, MSRP);
         boolean resultSet = (boolean) DatabaseUtils.executeQueryWithParameters(query, parameters);
         if (resultSet) {
-            System.out.println("Alta exitosa");
+            System.out.println("Successful insertion");
         } else {
-            Assert.fail("Error al insertar");
+            Assert.fail("Error inserting");
         }
     }
 }
