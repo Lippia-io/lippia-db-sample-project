@@ -5,7 +5,7 @@ import database.service.ServiceExample;
 import database.validator.ValidationsExample;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import model.Products;
+import database.model.Products;
 import org.testng.Assert;
 
 import java.io.IOException;

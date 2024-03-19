@@ -1,6 +1,6 @@
 package database.validator;
 
-import model.Products;
+import database.model.Products;
 import org.testng.Assert;
 
 import java.util.ArrayList;

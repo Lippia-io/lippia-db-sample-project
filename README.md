@@ -39,14 +39,15 @@ A typical Lippia Test Automation project usually looks like this
 │   │   │       ├── service
 │   │   │       ├── repository
 │   │   │       ├── util
+│   │   │       ├── models
 │   │   │       └── validator
-│   │   ├── models
+│   │   |
 │   │   └── report
 │   └── test
 │       ├── java
 │       │   └── database
 │       │       └── hooks
-│       │       └── steps
+│       │   └── steps
 │       └── resources
 │           ├── features
 │           └── queries
@@ -55,15 +56,15 @@ A typical Lippia Test Automation project usually looks like this
 
 Folder's description:
 
-|Path   |Description     |
-|-------|----------------|
-|main\java\...\examples\services\*.java  | Folder with all the **Services** matching steps with java code |
-|main\java\...\examples\steps\*Steps.java  | Folder with all the **steps** which match with Gherkin Test Scenarios |
-|test\resources\features\*.feature  | Folder with all the **feature files** containing **Test Scenarios** and **Sample Data** |
-|main\java\...\examples\**repository**\*.java  | Folder with all the ****repository**** class to interact with the database. |
-|main\java\...\examples\**model**\*.java  | Folder with all the ****model**** class to model entities. |
-|main\resources|Configuration files and SQL queries.|
-|src/test/java/validator|Folder for data validation.|
+| Path                                         | Description                                                                             |
+|----------------------------------------------|-----------------------------------------------------------------------------------------|
+| main/java/.../database/**services**/*.java   | Folder with all the **Services** matching steps with java code                          |
+| main/java/.../database/**repository**/*.java | Folder with all the ****repository**** class to interact with the database.             |
+| main/java/.../database/**model**/.java       | Folder with all the ****model**** class to model entities.                              |
+| main/java/.../database/validator             | Folder for data validation.                                                             |
+| test/resources/queries                       | Folder for all the SQL queries used in this project to interact with the database.      |
+| test/java/.../steps/*Steps.java              | Folder with all the **steps** which match with Gherkin Test Scenarios                   |
+| test/resources/features/*.feature            | Folder with all the **feature files** containing **Test Scenarios** and **Sample Data** |
 
 ## Database Configuration
 The database connection is configured using the following properties in the `pom.xml`:

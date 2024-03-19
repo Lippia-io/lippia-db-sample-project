@@ -1,4 +1,4 @@
-package model;
+package database.model;
 
 public class ProductLines {
     private String productLine;

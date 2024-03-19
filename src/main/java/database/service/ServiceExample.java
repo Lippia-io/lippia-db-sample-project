@@ -1,7 +1,7 @@
 package database.service;
 
 import database.repository.RepositoryExample;
-import model.Products;
+import database.model.Products;
 
 import java.io.IOException;
 import java.sql.SQLException;

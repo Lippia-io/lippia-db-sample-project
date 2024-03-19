@@ -2,7 +2,7 @@ package database.repository;
 
 import database.util.DatabaseUtils;
 import database.util.SqlFileReader;
-import model.Products;
+import database.model.Products;
 import org.testng.Assert;
 
 import java.io.IOException;
