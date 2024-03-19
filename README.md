@@ -11,8 +11,23 @@ The "Lippia DB Sample Project" aims to demonstrate how to work with a relational
 -   Docker compose 1.24+: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
 
 # Getting started
+### Setting Up the Database
 
-`$ mvn clean test`
+Firstly, you need to create the database in Docker. To do this, execute the following commands:
+
+	docker build . -t mysql:0.0.0 --no-cache
+	docker run -td -p 3306:3306 --name mysql mysql:0.0.0
+
+These commands will create an image for MySQL and set up the database. The `-td` flag ensures the container runs in the background. Port `3306` is exposed and mapped to the host, allowing you to connect to the MySQL instance from your local machine.
+The necessary files to set up the MySQL database are located in the **dockerDatabase** folder
+
+Once the container is running, you can proceed with running your tests that interact with this MySQL database. Make sure your application configuration points to `localhost:3306` for the database host and use the credentials you set during the Docker container setup.
+
+### Running Tests
+
+Now that the database is set up and running, you can execute your tests. Ensure your test configuration points to the correct database host, port, username, and password.
+
+    `$ mvn clean test`
 
 ## Project structure
 A typical Lippia Test Automation project usually looks like this
