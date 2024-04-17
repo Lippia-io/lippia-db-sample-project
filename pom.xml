@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.lippia</groupId>
         <artifactId>root</artifactId>
-        <version>3.3.0.0</version>
+        <version>3.3.0.2</version>
     </parent>
 
     <groupId>Lippia-DB-Example-Project</groupId>
@@ -19,7 +19,7 @@
         <!-- cucumber options -->
         <cucumber.stepsDefinitions>--glue /</cucumber.stepsDefinitions>
         <cucumber.hooks>--glue com/crowdar/bdd/cukes/hooks</cucumber.hooks>
-        <cucumber.tags>@c</cucumber.tags>
+        <cucumber.tags>@Demo</cucumber.tags>
         <pretty.plugin>--plugin pretty</pretty.plugin>
         <cucumber.report>--plugin lippia.web.reporters.CucumberReporter:</cucumber.report>
         <test-manager.report>--plugin lippia.web.reporters.TestManagerReporter:</test-manager.report>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>io.lippia</groupId>
             <artifactId>core</artifactId>
-            <version>3.3.0.0</version>
+            <version>3.3.0.2</version>
         </dependency>
         <dependency>
             <groupId>io.lippia.report</groupId>
