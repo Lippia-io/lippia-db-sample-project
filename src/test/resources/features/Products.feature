@@ -1,5 +1,6 @@
 Feature: Database CRUD
 
+  @Demo
   Scenario Outline: Obtener un producto por código
     Given el sistema retorna los productos con codigo <codigo>
     Then se valida el formato de los registros procesados
