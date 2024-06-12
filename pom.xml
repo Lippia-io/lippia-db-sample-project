@@ -21,12 +21,9 @@
         <cucumber.hooks>--glue com/crowdar/bdd/cukes/hooks</cucumber.hooks>
         <cucumber.tags>@Demo</cucumber.tags>
         <pretty.plugin>--plugin pretty</pretty.plugin>
-        <cucumber.report>--plugin lippia.web.reporters.CucumberReporter:</cucumber.report>
-        <test-manager.report>--plugin lippia.web.reporters.TestManagerReporter:</test-manager.report>
-        <crowdar.cucumber.option>src/test/resources/web/features ${cucumber.hooks} ${cucumber.stepsDefinitions} --tags
-            'not @Ignore' --tags ${cucumber.tags} ${cucumber.report}
-        </crowdar.cucumber.option>
-
+        <cucumber.report>--plugin report.CucumberReporter:</cucumber.report>
+        <test-manager.report>--plugin report.TestManagerReporter:</test-manager.report>
+        <crowdar.cucumber.option>src/test/resources/features ${cucumber.hooks} ${cucumber.stepsDefinitions} --tags 'not @Ignore' --tags ${cucumber.tags} ${cucumber.report}</crowdar.cucumber.option>
         <!-- client project custom properties -->
         <crwdr.db.host>localhost</crwdr.db.host>
         <crwdr.db.port>3306</crwdr.db.port>
